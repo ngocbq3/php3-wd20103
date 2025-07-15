@@ -3,9 +3,7 @@
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ProductController::class, 'index']);
 
 Route::get('/about-us', function () {
     return "ABOUT PAGE";
@@ -31,6 +29,9 @@ Route::prefix('/admin')->group(function () {
 Route::name('product.')->group(function () {
 
     Route::get('/products', [ProductController::class, 'index'])->name('list');
+
+    //Lấy 1 sản phẩm theo id
+    Route::get('/products/{id}', [ProductController::class, 'show'])->name('show');
     Route::get('/products/add', function () {
         return "Add product";
     })->name('add');
