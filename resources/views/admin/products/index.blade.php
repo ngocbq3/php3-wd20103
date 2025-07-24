@@ -14,7 +14,7 @@
                     <th scope="col">Quantity</th>
                     <th scope="col">Category Name</th>
                     <th scope="col">
-                        <a href="" class="btn btn-primary">Create</a>
+                        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Create</a>
                     </th>
 
                 </tr>
@@ -25,11 +25,20 @@
                         <th scope="row">{{ $product->id }}</th>
                         <td>{{ $product->name }}</td>
                         <td>
-                            <img src="{{ $product->image }}" width="100" alt="">
+                            <img src="{{ Storage::url($product->image) }}" width="100" alt="">
                         </td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>{{ $product->category->name }}</td>
+
+                        <td>
+                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Bạn có muốn xóa không?')">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
 
