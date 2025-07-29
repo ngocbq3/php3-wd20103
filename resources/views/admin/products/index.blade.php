@@ -32,7 +32,9 @@
                         <td>{{ $product->category->name }}</td>
 
                         <td>
-                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="post">
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary">Update</a>
+                            <form class="d-inline" action="{{ route('admin.products.destroy', $product->id) }}"
+                                method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"

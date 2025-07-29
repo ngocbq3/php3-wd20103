@@ -8,8 +8,12 @@
             @csrf
             <div class="mb-3">
                 <label class="form-label" for="">Name</label>
-                <input type="text" class="form-control" name="name">
+                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
+
             <div class="mb-3">
                 <label class="form-label" for="">Category Name</label>
                 <select name="category_id" id="" class="form-control">
@@ -23,6 +27,9 @@
             <div class="mb-3">
                 <label class="form-label" for="">Price</label>
                 <input type="number" class="form-control" name="price" step="0.1">
+                @error('price')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="">Quantity</label>

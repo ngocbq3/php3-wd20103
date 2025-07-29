@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -30,6 +31,19 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('image');
+
+        //Validate
+        $request->validate(
+            [
+                'name' => ['required', 'min:5'],
+                'price' => ['required', 'numeric', 'min:0'],
+            ],
+            [
+                'name.required' => "Bạn cần nhập tên sản phẩm",
+                'name.min'      => "Tên tối thiểu phải 5 ký tự",
+                'price.min'     => "Giá phải là số dương",
+            ]
+        );
         //thêm image vào data
         $data['image'] = "";
 
@@ -50,5 +64,41 @@ class ProductController extends Controller
             $product->delete();
         }
         return redirect()->route('admin.products.index');
+    }
+
+    //hiển thị form cập nhật
+    public function edit($id)
+    {
+        //LẤY thông tin sản phẩm cần cập nhật
+        $product = Product::find($id);
+        //Lấy thông tin danh mục
+        $categories = Category::all();
+        return view(
+            'admin.products.edit',
+            compact('product', 'categories')
+        );
+    }
+    //Phương cập nhật dữ liệu khi sửa
+    public function update(Request $request, $id)
+    {
+        //Lấy sản phẩm muốn cập nhật
+        $product = Product::query()->findOrFail($id);
+        //Lấy yêu cầu từ form edit
+        $data = $request->except('image');
+
+        //Xử lý hình ảnh
+        if ($request->hasFile('image')) {
+            //Lấy đường dẫn và lưu hình ảnh vào thư mục images trong storage
+            $path = $request->file('image')->store('images');
+            $data['image'] = $path;
+            //Xóa ảnh cũ
+            if (Storage::fileExists($product->image)) {
+                Storage::delete($product->image);
+            }
+        }
+        //Cập nhật
+        $product->update($data);
+
+        return redirect()->back()->with('success', 'Cập nhật dữ liệu thành công');
     }
 }
