@@ -15,6 +15,9 @@
             <div class="mb-3">
                 <label class="form-label" for="">Name</label>
                 <input type="text" class="form-control" name="name" value="{{ $product->name }}">
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="">Category Name</label>
@@ -29,19 +32,31 @@
             <div class="mb-3">
                 <label class="form-label" for="">Price</label>
                 <input type="number" class="form-control" name="price" step="0.1" value="{{ $product->price }}">
+                @error('price')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="">Quantity</label>
                 <input type="number" class="form-control" name="quantity" value="{{ $product->quantity }}">
+                @error('quantity')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="">Image</label> <br>
                 <img src="{{ Storage::URL($product->image) }}" width="90" alt=""> <br>
                 <input type="file" class="form-control" name="image">
+                @error('image')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="">Description</label>
                 <textarea name="description" id="" rows="10" class="form-control">{{ $product->description }}</textarea>
+                @error('description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Update</button>

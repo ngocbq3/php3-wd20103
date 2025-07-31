@@ -34,14 +34,23 @@
             <div class="mb-3">
                 <label class="form-label" for="">Quantity</label>
                 <input type="number" class="form-control" name="quantity">
+                @error('quantity')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="">Image</label>
                 <input type="file" class="form-control" name="image">
+                @error('image')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="">Description</label>
                 <textarea name="description" id="" rows="10" class="form-control"></textarea>
+                @error('description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Create</button>

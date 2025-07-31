@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -28,22 +30,10 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $data = $request->except('image');
+        $data = $request->validated();
 
-        //Validate
-        $request->validate(
-            [
-                'name' => ['required', 'min:5'],
-                'price' => ['required', 'numeric', 'min:0'],
-            ],
-            [
-                'name.required' => "Bạn cần nhập tên sản phẩm",
-                'name.min'      => "Tên tối thiểu phải 5 ký tự",
-                'price.min'     => "Giá phải là số dương",
-            ]
-        );
         //thêm image vào data
         $data['image'] = "";
 
@@ -79,12 +69,12 @@ class ProductController extends Controller
         );
     }
     //Phương cập nhật dữ liệu khi sửa
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
         //Lấy sản phẩm muốn cập nhật
         $product = Product::query()->findOrFail($id);
         //Lấy yêu cầu từ form edit
-        $data = $request->except('image');
+        $data = $request->validated();
 
         //Xử lý hình ảnh
         if ($request->hasFile('image')) {
