@@ -1,43 +1,20 @@
 <?php
 
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ProductController::class, 'index']);
-
-Route::get('/about-us', function () {
-    return "ABOUT PAGE";
-})->name('about'); //Đặt tên cho đường dẫn
-
-Route::get('/contact', function () {
-    return "CONTACT PAGE";
+Route::get('/', function () {
+    return view('welcome');
 });
 
-Route::get('/user/{id}', function ($id) {
-    return "USER ID: $id";
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('/admin')->group(function () {
-    Route::get('/posts', function () {
-        return "ADMIN POST";
-    });
-    Route::get('/posts/edit', function () {
-        return "ADMIN POST EDIT";
-    });
-});
-
-Route::name('product.')->group(function () {
-
-    Route::get('/products', [ProductController::class, 'index'])->name('list');
-
-    //Lấy 1 sản phẩm theo id
-    Route::get('/products/{id}', [ProductController::class, 'show'])->name('show');
-    Route::get('/products/add', function () {
-        return "Add product";
-    })->name('add');
-});
-
-//Demo
-Route::get('/demo', function () {
-    return view('demo');
-});
+require __DIR__.'/auth.php';
