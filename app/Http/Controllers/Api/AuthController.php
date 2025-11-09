@@ -78,7 +78,7 @@ class AuthController extends Controller
     {
         // ✅ XÓA token hiện tại
         $request->user()->currentAccessToken()->delete();
-
+        // Thông báo đăng xuất thành công
         return response()->json(['message' => 'Đăng xuất thành công']);
     }
 }
