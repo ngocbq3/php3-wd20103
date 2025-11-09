@@ -31,7 +31,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // ✅ TẠO token
+        // ✅ TẠO token đăng nhập cho tài khoản vừa đăng ký
         $token = $user->createToken('auth_token')->plainTextToken;
 
         // ✅ TRẢ VỀ
