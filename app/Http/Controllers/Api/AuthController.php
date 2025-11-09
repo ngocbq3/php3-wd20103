@@ -19,7 +19,8 @@ class AuthController extends Controller
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed', // password_confirmation required
         ]);
-        //Thông báo lỗi khi nhập sai dữ liệu        //THông báo lỗi.,..
+        //Thông báo lỗi khi nhập sai dữ liệu
+        //Khi người dùng nhập vào name, email và password không đúng định dạng
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
