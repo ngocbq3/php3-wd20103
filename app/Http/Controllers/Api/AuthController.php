@@ -65,7 +65,7 @@ class AuthController extends Controller
 
         // ✅ TẠO token
         $token = $user->createToken('auth_token')->plainTextToken;
-
+        //Thông báo đăng nhập thành công
         return response()->json([
             'message' => 'Đăng nhập thành công',
             'access_token' => $token,
