@@ -50,7 +50,7 @@ class AuthController extends Controller
             'email'    => 'required|email',
             'password' => 'required'
         ]);
-
+        //nếu có lỗi validate thì gửi thông báo lỗi
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
